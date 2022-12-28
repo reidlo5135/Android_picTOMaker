@@ -15,7 +15,6 @@
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 <img src="https://img.shields.io/badge/GRADLE-efefef?style=for-the-badge&logo=gradle&logoColor=white">
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
 <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
 <img src="https://img.shields.io/badge/Adobe XD-FF61F6?style=for-the-badge&logo=Adobe XD&logoColor=white">
 <img src="https://img.shields.io/badge/Intellij IDEA-000000?style=for-the-badge&logo=IntelliJ Idea&logoColor=white">
@@ -24,7 +23,6 @@
 - Design - Figma, Adobe Xd
 - Frontend - Kotlin, Android, MediaPipe, TensorFlow
 - Backend - Kotlin
-- Database - MySQL 8.0
 - Version Control - Git, GitHub
 - IDE - IntelliJ IDEA Ultimate
 
