@@ -1,50 +1,64 @@
 package kr.co.pictomaker
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kr.co.pictomaker.common.infra.RecyclerViewAdapter
-import kr.co.pictomaker.common.model.Entity
-import kr.co.pictomaker.common.model.MainViewModel
-import kr.co.pictomaker.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
+import kr.co.pictomaker.common.AddActivity
+import kr.co.pictomaker.contact.Contact
+import kr.co.pictomaker.contact.ContactAdapter
+import kr.co.pictomaker.contact.ContactViewModel
+
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel: MainViewModel by viewModels()
+
+    private val contactViewModel by lazy {
+        ViewModelProvider(this, ContactViewModel.Factory(application)).get(ContactViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        binding.viewModel = viewModel
-        val button: Button = findViewById(R.id.button)
-        var edit: EditText = findViewById(R.id.edit)
+//        ContactDatabase.getInstance(this)
+        setContentView(R.layout.activity_main)
 
-        val mAdapter = RecyclerViewAdapter(this, viewModel)
-        val recyclerview = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.recycler_item)
-        recyclerview.apply {
-            var adapter = mAdapter
-            var layoutManager = LinearLayoutManager(applicationContext)
-        }
-
-        viewModel.allUsers.observe(this, Observer { users ->
-            // Update the cached copy of the users in the adapter.
-            users?.let { mAdapter.setUsers(it) }
+        // Set contactItemClick & contactItemLongClick lambda
+        val adapter = ContactAdapter({ contact ->
+            val intent = Intent(this, AddActivity::class.java)
+            intent.putExtra(AddActivity.EXTRA_CONTACT_NAME, contact.name)
+            intent.putExtra(AddActivity.EXTRA_CONTACT_NUMBER, contact.number)
+            intent.putExtra(AddActivity.EXTRA_CONTACT_ID, contact.id)
+            startActivity(intent)
+        }, { contact ->
+            deleteDialog(contact)
         })
 
-        // 버튼 클릭시 edit에 적혀있는 텍스트를 db에 저장
-        button.setOnClickListener{
-            lifecycleScope.launch(Dispatchers.IO) {
-                viewModel.insert(
-                    Entity(0, edit.text.toString())
-                )
-            }
+        val lm = LinearLayoutManager(this)
+        main_recycleview.adapter = adapter
+        main_recycleview.layoutManager = lm
+        main_recycleview.setHasFixedSize(true)
+
+//        contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java)
+        contactViewModel.getAll().observe(this, Observer<List<Contact>> { contacts ->
+            adapter.setContacts(contacts!!)
+        })
+
+        main_button.setOnClickListener {
+            val intent = Intent(this, AddActivity::class.java)
+            startActivity(intent)
         }
+    }
+
+    private fun deleteDialog(contact: Contact) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Delete selected contact?")
+            .setNegativeButton("NO") { _, _ -> }
+            .setPositiveButton("YES") { _, _ ->
+                contactViewModel.delete(contact)
+            }
+        builder.show()
     }
 }
