@@ -2,10 +2,6 @@
 개인 프로젝트(TOY)<br>
 <b>VERSION: 1.0.0</b><br>
 
-## **픽토메이커란?**
-<b>픽토그램(pictogram)</b>이란 그림문자 또는 픽토는 의미하고자 하는 바를 직접적으로 묘사한 그림을 통해 의미를 전달하는 표의 문자입니다. <br><br>
-<b>픽토메이커</b>는 사용자가 원하는 <b>픽토그램(pictogram)</b>을 사용자가 직접 촬영 및 제작 후 사용 및 공유/배포를 가능하게 하는 웹 서비스입니다. <br><br>
-
 ## <b>사용기술</b>
 <span>
 <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white">
