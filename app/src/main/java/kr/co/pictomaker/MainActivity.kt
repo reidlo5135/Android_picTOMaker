@@ -22,10 +22,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        ContactDatabase.getInstance(this)
         setContentView(R.layout.activity_main)
 
-        // Set contactItemClick & contactItemLongClick lambda
         val adapter = ContactAdapter({ contact ->
             val intent = Intent(this, AddActivity::class.java)
             intent.putExtra(AddActivity.EXTRA_CONTACT_NAME, contact.name)
